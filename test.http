@@ -1,0 +1,28 @@
+@uri = "https://localhost:3001"
+GET {{uri}}/questionnaires
+###
+GET {{uri}}/questionnaires/601508473773f86c9256350d
+###
+POST {{uri}}/questionnaires
+Content-Type: application/json
+
+{
+  name: "name",
+  school: "school",
+  class: "class",
+  desire: "desire",
+  message: "message",
+}
+###
+PUT {{uri}}/questionnaires/601508473773f86c9256350d
+Content-Type: application/json
+
+{
+  name: "new-name",
+  school: "new-school",
+  class: "new-class",
+  desire: "new-desire",
+  message: "new-message",
+}
+###
+DELETE {{uri}}/questionnaires/601508473773f86c9256350d
