@@ -1,5 +1,24 @@
 const express = require("express");
 const app = express();
+var https = require("https");
+var fs = require("fs");
+var path = require("path");
+
+var privateCrt = fs.readFileSync(
+  path.join(process.cwd(), "https/1_xn--jpr91eh7e3vaq32f.cn_bundle.crt"),
+  "utf8"
+);
+var privateKey = fs.readFileSync(
+  path.join(process.cwd(), "https/2_xn--jpr91eh7e3vaq32f.cn.key"),
+  "utf8"
+);
+const HTTPS_OPTOIN = {
+  key: privateKey,
+  cert: privateCrt,
+};
+
+const SSL_PORT = 3001;
+const httpsServer = https.createServer(HTTPS_OPTOIN, app);
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/questionnaire-test", {
@@ -68,7 +87,11 @@ app.delete("/questionnaires/:id", async (req, res) => {
   });
 });
 
-app.listen(3001, () => {
-  console.log("http://localhost:3001");
-  console.log(new Date().toLocaleString());
+// app.listen(3001, () => {
+//   console.log("http://localhost:3001");
+//   console.log(new Date().toLocaleString());
+// });
+
+httpsServer.listen(SSL_PORT, () => {
+  console.log(`HTTPS Server is running on: https://localhost:${SSL_PORT}`);
 });
